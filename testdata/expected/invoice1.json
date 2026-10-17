@@ -1,0 +1,12 @@
+{
+  "items": [
+    { "name": "Piept pui dezosat", "qty": 8, "unit": "kg", "unit_price": 24.9 },
+    { "name": "Pulpă porc cu os", "qty": 12.5, "unit": "kg", "unit_price": 18.5 },
+    { "name": "Ceapă galbenă", "qty": 15, "unit": "kg", "unit_price": 2.8 },
+    { "name": "Cartofi albi", "qty": 25, "unit": "kg", "unit_price": 2.3 },
+    { "name": "Roșii cherry", "qty": 6, "unit": "kg", "unit_price": 11.9 },
+    { "name": "Ulei floarea-soarelui 1L", "qty": 20, "unit": "buc", "unit_price": 8.49 },
+    { "name": "Făină albă 000 (1 kg)", "qty": 15, "unit": "buc", "unit_price": 3.2 },
+    { "name": "Lapte 3.5% 1L", "qty": 10, "unit": "buc", "unit_price": 6.75 }
+  ]
+}
