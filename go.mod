@@ -1,3 +1,3 @@
 module managerio/scanner
 
-go 1.25.1
+go 1.27.2
