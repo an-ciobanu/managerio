@@ -140,6 +140,14 @@ Every stage fails into a friendly HTML fragment; the server never crashes the re
 - **HTTPS:** **Caddy** reverse-proxy in front, with automatic TLS on a subdomain the author controls (A record → VPS IP), proxying to the Go app on `PORT`. Phones need a valid certificate; Caddy's auto-TLS is the lowest-effort way to get one.
 - **Fallback (if DNS/cert is slow):** a Cloudflare Tunnel for an instant HTTPS URL, or plain HTTP as a last resort.
 
+### Co-located services
+
+This service and the teammate's dashboard+DB service run as two separate processes on the **same** Hetzner VPS, each on its own port, with Caddy routing to both:
+
+- **Subdomain routing (preferred):** `scan.<domain>` → this app; `app.<domain>` → teammate's dashboard. Each gets its own auto-TLS cert.
+- Because both run on the same box, `WEBHOOK_URL` can point at the teammate's service over loopback (e.g. `http://localhost:<his-port>/webhook`) — no public exposure, no CORS, lower latency. It stays an env var, so this is a config choice with no code impact.
+- The teammate's dashboard (price/history views reading from the DB) is fully independent of this service.
+
 ## Testing (hackathon-lean)
 
 - **Unit:** map a saved sample vision-response JSON → `WebhookPayload` (no network) to lock the data mapping.
