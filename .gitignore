@@ -1,6 +1,14 @@
+# build artifacts
 bin/
 *.exe
+
+# env / secrets
 .env
 .env.*
+*.txt
+fireworks.txt
+hetzner.txt
+
+# misc
 uploads/
 .DS_Store
