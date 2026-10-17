@@ -14,3 +14,4 @@ uploads/
 .DS_Store
 /scanner
 .secrets/
+deploy/
