@@ -1,7 +1,7 @@
 {{if .SendFailed}}
-<p class="err">Factura a fost citită, dar trimiterea către server a eșuat. Încearcă din nou.</p>
+<p class="err">Document citit, dar trimiterea către server a eșuat. Încearcă din nou.</p>
 {{else}}
-<p class="ok">Trimis ✓ ({{len .Items}} produse)</p>
+<p class="ok">{{if .Input}}Intrare{{else}}Ieșire{{end}} trimisă ✓ ({{len .Items}} produse)</p>
 {{end}}
 <table>
   <tr><th>Produs</th><th>Cant.</th><th>UM</th><th>Preț</th></tr>

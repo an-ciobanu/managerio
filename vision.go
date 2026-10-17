@@ -19,11 +19,21 @@ type Vision struct {
 	Client  *http.Client
 }
 
-const visionPrompt = `You are reading a Romanian supplier invoice from Metro or Selgros.
+// invoicePrompt is used for supplier invoices (goods coming IN).
+const invoicePrompt = `You are reading a Romanian SUPPLIER INVOICE (factură) from a cash-and-carry store such as Metro or Selgros.
 Extract every product line item. For each item return:
 - name: the product name exactly as printed (Romanian)
 - qty: the quantity as a number
 - unit: the unit of measure (e.g. kg, buc, l)
+- unit_price: the price per unit as a number
+Return only the structured data as JSON matching the schema.`
+
+// receiptPrompt is used for client fiscal receipts / bon fiscal (goods going OUT).
+const receiptPrompt = `You are reading a Romanian FISCAL RECEIPT (bon fiscal) issued to a client.
+Extract every product line item sold. For each item return:
+- name: the product name exactly as printed (Romanian)
+- qty: the quantity as a number (default to 1 if not shown)
+- unit: the unit of measure if shown (e.g. kg, buc, l), otherwise "buc"
 - unit_price: the price per unit as a number
 Return only the structured data as JSON matching the schema.`
 
@@ -93,7 +103,12 @@ type itemsWrapper struct {
 }
 
 // ExtractItems sends the image to the vision model and returns the parsed line items.
-func (v Vision) ExtractItems(ctx context.Context, img []byte) ([]Item, error) {
+// input selects the prompt: true for a supplier invoice, false for a client bon fiscal.
+func (v Vision) ExtractItems(ctx context.Context, img []byte, input bool) ([]Item, error) {
+	prompt := invoicePrompt
+	if !input {
+		prompt = receiptPrompt
+	}
 	dataURI := "data:image/jpeg;base64," + base64.StdEncoding.EncodeToString(img)
 	reqBody := chatReq{
 		Model:     v.Model,
@@ -101,7 +116,7 @@ func (v Vision) ExtractItems(ctx context.Context, img []byte) ([]Item, error) {
 		Messages: []chatMsg{{
 			Role: "user",
 			Content: []contentPart{
-				{Type: "text", Text: visionPrompt},
+				{Type: "text", Text: prompt},
 				{Type: "image_url", ImageURL: &imageURL{URL: dataURI}},
 			},
 		}},

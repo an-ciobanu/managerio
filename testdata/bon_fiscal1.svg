@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="780" viewBox="0 0 560 780" font-family="Helvetica, Arial, sans-serif">
+  <rect width="560" height="780" fill="#ffffff"/>
+
+  <text x="280" y="48" font-size="22" font-weight="bold" fill="#111" text-anchor="middle">RESTAURANT LA BUNICA SRL</text>
+  <text x="280" y="72" font-size="14" fill="#333" text-anchor="middle">Str. Memorandumului 12, Cluj-Napoca</text>
+  <text x="280" y="92" font-size="14" fill="#333" text-anchor="middle">CUI: RO41256789</text>
+
+  <line x1="30" y1="108" x2="530" y2="108" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="280" y="140" font-size="20" font-weight="bold" fill="#111" text-anchor="middle">BON FISCAL</text>
+  <text x="30" y="166" font-size="14" fill="#333">Nr. 000234</text>
+  <text x="530" y="166" font-size="14" fill="#333" text-anchor="end">16.10.2026 14:32</text>
+  <line x1="30" y1="182" x2="530" y2="182" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <g font-size="15" fill="#111">
+    <text x="30" y="214">Ciorbă de burtă</text>
+    <text x="30" y="234" font-size="13" fill="#444">   2 buc x 18,00</text><text x="530" y="234" text-anchor="end">36,00</text>
+
+    <text x="30" y="266">Șnițel de pui</text>
+    <text x="30" y="286" font-size="13" fill="#444">   3 buc x 27,50</text><text x="530" y="286" text-anchor="end">82,50</text>
+
+    <text x="30" y="318">Cartofi prăjiți</text>
+    <text x="30" y="338" font-size="13" fill="#444">   3 buc x 9,00</text><text x="530" y="338" text-anchor="end">27,00</text>
+
+    <text x="30" y="370">Salată varză</text>
+    <text x="30" y="390" font-size="13" fill="#444">   2 buc x 7,50</text><text x="530" y="390" text-anchor="end">15,00</text>
+
+    <text x="30" y="422">Cola 0.5L</text>
+    <text x="30" y="442" font-size="13" fill="#444">   4 buc x 6,00</text><text x="530" y="442" text-anchor="end">24,00</text>
+
+    <text x="30" y="474">Apă minerală 0.5L</text>
+    <text x="30" y="494" font-size="13" fill="#444">   2 buc x 5,00</text><text x="530" y="494" text-anchor="end">10,00</text>
+  </g>
+
+  <line x1="30" y1="516" x2="530" y2="516" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="30" y="548" font-size="18" font-weight="bold" fill="#111">TOTAL</text>
+  <text x="530" y="548" font-size="18" font-weight="bold" fill="#111" text-anchor="end">194,50 LEI</text>
+  <text x="30" y="574" font-size="13" fill="#444">din care TVA 9%</text>
+  <text x="530" y="574" font-size="13" fill="#444" text-anchor="end">16,07</text>
+
+  <line x1="30" y1="594" x2="530" y2="594" stroke="#333" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="280" y="624" font-size="13" fill="#555" text-anchor="middle">Vă mulțumim! Document generat pentru testare.</text>
+</svg>

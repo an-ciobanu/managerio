@@ -9,6 +9,7 @@ func TestWebhookPayloadJSON(t *testing.T) {
 	p := WebhookPayload{
 		RestaurantID: "demo",
 		Source:       "metro",
+		Input:        true,
 		Items:        []Item{{Name: "Piept pui", Qty: 5, Unit: "kg", UnitPrice: 18.9}},
 	}
 	b, err := json.Marshal(p)
@@ -16,7 +17,7 @@ func TestWebhookPayloadJSON(t *testing.T) {
 		t.Fatalf("marshal: %v", err)
 	}
 	got := string(b)
-	want := `{"restaurant_id":"demo","source":"metro","items":[{"name":"Piept pui","qty":5,"unit":"kg","unit_price":18.9}]}`
+	want := `{"restaurant_id":"demo","source":"metro","input":true,"items":[{"name":"Piept pui","qty":5,"unit":"kg","unit_price":18.9}]}`
 	if got != want {
 		t.Errorf("got  %s\nwant %s", got, want)
 	}

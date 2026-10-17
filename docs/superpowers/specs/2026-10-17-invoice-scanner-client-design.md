@@ -16,6 +16,15 @@ This spec covers **one half** of the system — the client service owned by this
 
 **Out of scope (teammate's service):** receiving the webhook, inserting into the database, the monitoring dashboard.
 
+### Update (2026-10-17): two scan directions — input and output
+
+The scanner captures both sides of the inventory equation:
+
+- **Input** — a supplier **invoice** (factură, Metro/Selgros): goods coming IN (adds stock).
+- **Output** — a client **bon fiscal** (fiscal receipt): goods going OUT (removes stock).
+
+The owner chooses the direction with **two buttons** on the page ("Factură furnizor (intrare)" / "Bon fiscal client (ieșire)"), which post `/scan` with a hidden `kind=in|out`. The server selects the matching extraction prompt (invoice vs receipt; same item schema) and adds an `input` boolean to the webhook payload so the teammate's service computes `inventory = inputs − outputs`. `source` stays `""` for now.
+
 ## Non-goals (YAGNI for the hackathon)
 
 - User accounts / authentication (a single `RESTAURANT_ID` env value is enough for the demo).
@@ -82,17 +91,19 @@ type Item struct {
 
 type WebhookPayload struct {
     RestaurantID string `json:"restaurant_id"`
-    Source       string `json:"source"`    // "metro" | "selgros" | ""
+    Source       string `json:"source"`    // "" for now
+    Input        bool   `json:"input"`      // true = supplier invoice (IN), false = bon fiscal (OUT)
     Items        []Item `json:"items"`
 }
 ```
 
-Starting webhook body (easy to change):
+Webhook body (easy to change):
 
 ```json
 {
   "restaurant_id": "demo",
-  "source": "metro",
+  "source": "",
+  "input": true,
   "items": [
     { "name": "Piept pui", "qty": 5, "unit": "kg", "unit_price": 18.9 }
   ]
@@ -103,7 +114,7 @@ Starting webhook body (easy to change):
 
 **Vision LLM** (not OCR+regex). Metro/Selgros invoices are dense and in Romanian; a vision-language model that returns structured JSON is both easier to build and more robust than classic OCR followed by hand-written parsing.
 
-**Model:** Qwen2.5-VL (open-source), served by an OpenAI-compatible endpoint. It is explicitly designed for structured extraction from scans of invoices/forms/tables, which is exactly this task. Default size: **72B** for accuracy on real photos; drop to 32B/7B if latency or cost requires it (env var only).
+**Model:** an open-source vision model served by an OpenAI-compatible endpoint, designed for structured extraction from scans of invoices/forms/tables. **Implemented default: `qwen3p8-max` on Fireworks** — Qwen2.5-VL (the original pick) is not available on the account's 2026 catalog; `qwen3p8-max` is multimodal and extracts all test documents at 100%. Env-overridable via `VISION_MODEL`.
 
 **Provider:** provider-agnostic. Both Fireworks and DeepInfra expose an OpenAI-compatible `/chat/completions` endpoint that accepts a base64 image and `response_format` JSON schema. `vision.go` is a single configurable HTTP client:
 

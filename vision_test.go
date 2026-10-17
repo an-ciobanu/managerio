@@ -30,7 +30,7 @@ func TestExtractItemsParsesResponse(t *testing.T) {
 	defer srv.Close()
 
 	v := Vision{BaseURL: srv.URL, APIKey: "test-key", Model: "qwen", Client: srv.Client()}
-	items, err := v.ExtractItems(context.Background(), []byte("fake-jpeg-bytes"))
+	items, err := v.ExtractItems(context.Background(), []byte("fake-jpeg-bytes"), true)
 	if err != nil {
 		t.Fatalf("ExtractItems: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestExtractItemsNon2xx(t *testing.T) {
 	}))
 	defer srv.Close()
 	v := Vision{BaseURL: srv.URL, APIKey: "k", Model: "m", Client: srv.Client()}
-	if _, err := v.ExtractItems(context.Background(), []byte("x")); err == nil {
+	if _, err := v.ExtractItems(context.Background(), []byte("x"), true); err == nil {
 		t.Error("expected error on 400, got nil")
 	}
 }

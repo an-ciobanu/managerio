@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "name": "Ciorbă de burtă", "qty": 2, "unit": "buc", "unit_price": 18.0 },
+    { "name": "Șnițel de pui", "qty": 3, "unit": "buc", "unit_price": 27.5 },
+    { "name": "Cartofi prăjiți", "qty": 3, "unit": "buc", "unit_price": 9.0 },
+    { "name": "Salată varză", "qty": 2, "unit": "buc", "unit_price": 7.5 },
+    { "name": "Cola 0.5L", "qty": 4, "unit": "buc", "unit_price": 6.0 },
+    { "name": "Apă minerală 0.5L", "qty": 2, "unit": "buc", "unit_price": 5.0 }
+  ]
+}
