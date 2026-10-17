@@ -34,20 +34,29 @@ func NewServer(cfg Config,
 	return &Server{cfg: cfg, extract: extract, send: send, templates: tmpl}, nil
 }
 
-// Routes returns the configured HTTP handler.
+// Routes returns the configured HTTP handler. When BasePath is set (e.g. "/scan"),
+// the UI is served under that prefix so it can sit behind a reverse proxy alongside
+// another app at the root. /healthz is always unprefixed for local checks.
 func (s *Server) Routes() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /", s.handleIndex)
-	mux.HandleFunc("POST /scan", s.handleScan)
+	bp := s.cfg.BasePath
+	mux.HandleFunc("GET "+bp+"/{$}", s.handleIndex)
+	mux.HandleFunc("POST "+bp+"/submit", s.handleScan)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))
 	})
+	if bp != "" {
+		// redirect the bare prefix (/scan) to the canonical /scan/
+		mux.HandleFunc("GET "+bp, func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, bp+"/", http.StatusMovedPermanently)
+		})
+	}
 	return mux
 }
 
 func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := s.templates.ExecuteTemplate(w, "index.html", nil); err != nil {
+	if err := s.templates.ExecuteTemplate(w, "index.html", map[string]any{"BasePath": s.cfg.BasePath}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

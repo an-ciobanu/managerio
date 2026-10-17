@@ -5,6 +5,7 @@ import "os"
 // Config holds all runtime configuration, sourced from environment variables.
 type Config struct {
 	Port          string
+	BasePath      string // URL prefix the app is mounted under (e.g. "/scan"); "" = root
 	VisionBaseURL string
 	VisionAPIKey  string
 	VisionModel   string
@@ -16,6 +17,7 @@ type Config struct {
 func LoadConfig() Config {
 	return Config{
 		Port:          env("PORT", "8080"),
+		BasePath:      env("BASE_PATH", ""),
 		VisionBaseURL: env("VISION_BASE_URL", "https://api.fireworks.ai/inference/v1"),
 		VisionAPIKey:  env("VISION_API_KEY", ""),
 		VisionModel:   env("VISION_MODEL", "accounts/fireworks/models/qwen3p8-max"),
