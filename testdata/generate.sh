@@ -35,9 +35,10 @@ degrade_combined() { # src out  (worst-case phone snap: downscale+light+noise+sk
   rm -f "$tmp"
 }
 
-echo "Rendering clean invoices..."
+echo "Rendering clean documents..."
 render invoice1_metro.svg    invoice1_metro.jpg
 render invoice2_selgros.svg  invoice2_selgros.jpg
+render bon_fiscal1.svg       bon_fiscal1.jpg
 
 SRC=invoice1_metro.jpg
 read -r W H < <(magick identify -format "%w %h\n" "$SRC")
@@ -57,6 +58,8 @@ magick "$SRC" -blur 0x0.9 -attenuate 0.7 +noise Gaussian -quality 55 variants/in
 degrade_combined "$SRC" variants/inv1_combined.jpg
 # 6. combined worst case (Selgros, different layout)
 degrade_combined invoice2_selgros.jpg variants/inv2_combined.jpg
+# 7. combined worst case (bon fiscal / receipt)
+degrade_combined bon_fiscal1.jpg variants/bon1_combined.jpg
 
 echo "Done. Images:"
 ls -1 *.jpg variants/*.jpg

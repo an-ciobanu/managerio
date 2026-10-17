@@ -14,16 +14,17 @@ var templatesFS embed.FS
 const maxUploadBytes = 10 << 20 // 10 MB
 
 // Server holds config, the external seams (extract/send), and parsed templates.
+// extract's bool is the scan direction: true = supplier invoice, false = bon fiscal.
 type Server struct {
 	cfg       Config
-	extract   func(ctx context.Context, img []byte) ([]Item, error)
+	extract   func(ctx context.Context, img []byte, input bool) ([]Item, error)
 	send      func(ctx context.Context, payload WebhookPayload) error
 	templates *template.Template
 }
 
 // NewServer parses templates and wires the dependencies.
 func NewServer(cfg Config,
-	extract func(ctx context.Context, img []byte) ([]Item, error),
+	extract func(ctx context.Context, img []byte, input bool) ([]Item, error),
 	send func(ctx context.Context, payload WebhookPayload) error,
 ) (*Server, error) {
 	tmpl, err := template.ParseFS(templatesFS, "templates/*.html")
@@ -69,17 +70,29 @@ func (s *Server) handleScan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	items, err := s.extract(r.Context(), img)
-	if err != nil || len(items) == 0 {
-		s.renderError(w, "Nu am putut analiza factura. Încearcă o poză mai clară.")
+	// kind selects the scan direction: "in" = supplier invoice, "out" = bon fiscal.
+	var input bool
+	switch r.FormValue("kind") {
+	case "in":
+		input = true
+	case "out":
+		input = false
+	default:
+		s.renderError(w, "Tip document necunoscut. Reîncearcă.")
 		return
 	}
 
-	payload := WebhookPayload{RestaurantID: s.cfg.RestaurantID, Items: items}
+	items, err := s.extract(r.Context(), img, input)
+	if err != nil || len(items) == 0 {
+		s.renderError(w, "Nu am putut analiza documentul. Încearcă o poză mai clară.")
+		return
+	}
+
+	payload := WebhookPayload{RestaurantID: s.cfg.RestaurantID, Input: input, Items: items}
 	sendErr := s.send(r.Context(), payload)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	_ = s.templates.ExecuteTemplate(w, "fragment.html", resultView{Items: items, SendFailed: sendErr != nil})
+	_ = s.templates.ExecuteTemplate(w, "fragment.html", resultView{Items: items, Input: input, SendFailed: sendErr != nil})
 }
 
 func (s *Server) renderError(w http.ResponseWriter, msg string) {

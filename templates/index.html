@@ -3,12 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Scanare Factură</title>
+  <title>Scanare Documente</title>
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto; padding: 16px; color: #111; }
     h1 { font-size: 1.25rem; }
-    .btn { display: block; width: 100%; padding: 14px; font-size: 1rem; border: 0; border-radius: 8px; background: #2563eb; color: #fff; }
+    .btn { display: block; width: 100%; padding: 16px; font-size: 1rem; font-weight: 600; text-align: center;
+           border: 0; border-radius: 8px; color: #fff; margin-bottom: 12px; cursor: pointer; }
+    .btn-in { background: #2563eb; }   /* intrare: supplier invoice */
+    .btn-out { background: #ea580c; }  /* ieșire: client bon fiscal */
+    .btn input { display: none; }
     table { width: 100%; border-collapse: collapse; margin-top: 12px; }
     th, td { text-align: left; padding: 6px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
     .ok { color: #16a34a; } .err { color: #dc2626; }
@@ -17,12 +21,25 @@
   </style>
 </head>
 <body>
-  <h1>Scanează factura Metro / Selgros</h1>
+  <h1>Scanează un document</h1>
+
   <form hx-post="/scan" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
-    <input class="btn" type="file" name="photo" accept="image/*" capture="environment"
-           onchange="this.form.requestSubmit()">
+    <input type="hidden" name="kind" value="in">
+    <label class="btn btn-in">📥 Factură furnizor (intrare)
+      <input type="file" name="photo" accept="image/*" capture="environment"
+             onchange="this.form.requestSubmit()">
+    </label>
   </form>
-  <div id="ind" class="htmx-indicator">Analizez factura…</div>
+
+  <form hx-post="/scan" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
+    <input type="hidden" name="kind" value="out">
+    <label class="btn btn-out">📤 Bon fiscal client (ieșire)
+      <input type="file" name="photo" accept="image/*" capture="environment"
+             onchange="this.form.requestSubmit()">
+    </label>
+  </form>
+
+  <div id="ind" class="htmx-indicator">Analizez documentul…</div>
   <div id="result"></div>
 </body>
 </html>

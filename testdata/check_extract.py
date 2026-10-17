@@ -12,24 +12,36 @@ KEY = os.environ.get("VISION_API_KEY") or open(os.path.join(HERE, "..", "firewor
 MODEL = os.environ.get("VISION_MODEL", "accounts/fireworks/models/qwen3p8-max")
 BASE = os.environ.get("VISION_BASE_URL", "https://api.fireworks.ai/inference/v1")
 
-# (image, expected json) — variants of invoice1 reuse invoice1 ground truth.
+# (image, expected json, is_input) — is_input picks the prompt, mirroring the app.
+# Supplier invoices = input; client bon fiscal = output.
 CASES = [
-    ("invoice1_metro.jpg",            "expected/invoice1.json"),
-    ("variants/inv1_rotate.jpg",      "expected/invoice1.json"),
-    ("variants/inv1_perspective.jpg", "expected/invoice1.json"),
-    ("variants/inv1_lighting.jpg",    "expected/invoice1.json"),
-    ("variants/inv1_noise.jpg",       "expected/invoice1.json"),
-    ("variants/inv1_combined.jpg",    "expected/invoice1.json"),
-    ("invoice2_selgros.jpg",          "expected/invoice2.json"),
-    ("variants/inv2_combined.jpg",    "expected/invoice2.json"),
+    ("invoice1_metro.jpg",            "expected/invoice1.json",    True),
+    ("variants/inv1_rotate.jpg",      "expected/invoice1.json",    True),
+    ("variants/inv1_perspective.jpg", "expected/invoice1.json",    True),
+    ("variants/inv1_lighting.jpg",    "expected/invoice1.json",    True),
+    ("variants/inv1_noise.jpg",       "expected/invoice1.json",    True),
+    ("variants/inv1_combined.jpg",    "expected/invoice1.json",    True),
+    ("invoice2_selgros.jpg",          "expected/invoice2.json",    True),
+    ("variants/inv2_combined.jpg",    "expected/invoice2.json",    True),
+    ("bon_fiscal1.jpg",               "expected/bon_fiscal1.json", False),
+    ("variants/bon1_combined.jpg",    "expected/bon_fiscal1.json", False),
 ]
 
-PROMPT = (
-    "You are reading a Romanian supplier invoice from Metro or Selgros.\n"
+INVOICE_PROMPT = (
+    "You are reading a Romanian SUPPLIER INVOICE (factură) from a cash-and-carry store such as Metro or Selgros.\n"
     "Extract every product line item. For each item return:\n"
     "- name: the product name exactly as printed (Romanian)\n"
     "- qty: the quantity as a number\n"
     "- unit: the unit of measure (e.g. kg, buc, l)\n"
+    "- unit_price: the price per unit as a number\n"
+    "Return only the structured data as JSON matching the schema."
+)
+RECEIPT_PROMPT = (
+    "You are reading a Romanian FISCAL RECEIPT (bon fiscal) issued to a client.\n"
+    "Extract every product line item sold. For each item return:\n"
+    "- name: the product name exactly as printed (Romanian)\n"
+    "- qty: the quantity as a number (default to 1 if not shown)\n"
+    "- unit: the unit of measure if shown (e.g. kg, buc, l), otherwise \"buc\"\n"
     "- unit_price: the price per unit as a number\n"
     "Return only the structured data as JSON matching the schema."
 )
@@ -43,10 +55,11 @@ SCHEMA = {
 }
 
 
-def extract(img_path):
+def extract(img_path, is_input):
     b64 = base64.b64encode(open(os.path.join(HERE, img_path), "rb").read()).decode()
+    prompt = INVOICE_PROMPT if is_input else RECEIPT_PROMPT
     body = {"model": MODEL, "max_tokens": 4096, "messages": [{"role": "user", "content": [
-        {"type": "text", "text": PROMPT},
+        {"type": "text", "text": prompt},
         {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64," + b64}}]}],
         "response_format": {"type": "json_schema", "json_schema": {"name": "invoice_items", "schema": SCHEMA}}}
     req = urllib.request.Request(BASE + "/chat/completions", data=json.dumps(body).encode(),
@@ -95,10 +108,10 @@ def score(got, want):
 def main():
     print(f"Model: {MODEL}\n")
     total_exact = total_rows = 0
-    for img, exp in CASES:
+    for img, exp, is_input in CASES:
         want = json.load(open(os.path.join(HERE, exp)))["items"]
         try:
-            got = extract(img)
+            got = extract(img, is_input)
         except urllib.error.HTTPError as e:
             print(f"❌ {img:<34} HTTP {e.code}: {e.read().decode()[:120]}"); continue
         except Exception as e:
