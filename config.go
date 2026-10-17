@@ -18,7 +18,7 @@ func LoadConfig() Config {
 		Port:          env("PORT", "8080"),
 		VisionBaseURL: env("VISION_BASE_URL", "https://api.fireworks.ai/inference/v1"),
 		VisionAPIKey:  env("VISION_API_KEY", ""),
-		VisionModel:   env("VISION_MODEL", "accounts/fireworks/models/qwen2p5-vl-72b-instruct"),
+		VisionModel:   env("VISION_MODEL", "accounts/fireworks/models/qwen3p8-max"),
 		WebhookURL:    env("WEBHOOK_URL", ""),
 		RestaurantID:  env("RESTAURANT_ID", "demo"),
 	}
