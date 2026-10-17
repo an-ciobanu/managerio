@@ -10,8 +10,13 @@ import (
 	"testing"
 )
 
-// newMultipartRequest builds a POST /scan request carrying the kind field + one image part.
+// newMultipartRequest builds a submit request carrying the kind field + one image part.
 func newMultipartRequest(t *testing.T, kind string, fieldData []byte) *http.Request {
+	return newMultipartRequestTo(t, "/submit", kind, fieldData)
+}
+
+// newMultipartRequestTo is like newMultipartRequest but posts to an explicit path.
+func newMultipartRequestTo(t *testing.T, path, kind string, fieldData []byte) *http.Request {
 	t.Helper()
 	var buf bytes.Buffer
 	mw := multipart.NewWriter(&buf)
@@ -24,7 +29,7 @@ func newMultipartRequest(t *testing.T, kind string, fieldData []byte) *http.Requ
 	}
 	fw.Write(fieldData)
 	mw.Close()
-	req := httptest.NewRequest(http.MethodPost, "/scan", &buf)
+	req := httptest.NewRequest(http.MethodPost, path, &buf)
 	req.Header.Set("Content-Type", mw.FormDataContentType())
 	return req
 }
@@ -145,6 +150,49 @@ func TestHandleScanWebhookError(t *testing.T) {
 	}
 	if !strings.Contains(body, "eșuat") {
 		t.Errorf("expected send-failed note: %s", body)
+	}
+}
+
+func TestRoutesRespectBasePath(t *testing.T) {
+	extract := func(_ context.Context, _ []byte, _ bool) ([]Item, error) {
+		return []Item{{Name: "X", Qty: 1, Unit: "buc", UnitPrice: 1}}, nil
+	}
+	send := func(_ context.Context, _ WebhookPayload) error { return nil }
+	s, err := NewServer(Config{RestaurantID: "demo", BasePath: "/scan"}, extract, send)
+	if err != nil {
+		t.Fatalf("NewServer: %v", err)
+	}
+	h := s.Routes()
+
+	// index served at /scan/
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/scan/", nil))
+	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "Bon fiscal") {
+		t.Errorf("GET /scan/ = %d, page missing: %s", rec.Code, rec.Body.String())
+	}
+	if !strings.Contains(rec.Body.String(), `hx-post="/scan/submit"`) {
+		t.Errorf("form should post to /scan/submit: %s", rec.Body.String())
+	}
+
+	// bare /scan redirects to /scan/
+	rec = httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/scan", nil))
+	if rec.Code != http.StatusMovedPermanently || rec.Header().Get("Location") != "/scan/" {
+		t.Errorf("GET /scan = %d loc=%q, want 301 -> /scan/", rec.Code, rec.Header().Get("Location"))
+	}
+
+	// submit routed under the prefix
+	rec = httptest.NewRecorder()
+	h.ServeHTTP(rec, newMultipartRequestTo(t, "/scan/submit", "in", []byte("img")))
+	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "Intrare") {
+		t.Errorf("POST /scan/submit = %d, body: %s", rec.Code, rec.Body.String())
+	}
+
+	// healthz stays unprefixed
+	rec = httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/healthz", nil))
+	if rec.Code != http.StatusOK {
+		t.Errorf("GET /healthz = %d, want 200", rec.Code)
 	}
 }
 

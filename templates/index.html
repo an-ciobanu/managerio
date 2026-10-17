@@ -23,7 +23,7 @@
 <body>
   <h1>Scanează un document</h1>
 
-  <form hx-post="/scan" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
+  <form hx-post="{{.BasePath}}/submit" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
     <input type="hidden" name="kind" value="in">
     <label class="btn btn-in">📥 Factură furnizor (intrare)
       <input type="file" name="photo" accept="image/*" capture="environment"
@@ -31,7 +31,7 @@
     </label>
   </form>
 
-  <form hx-post="/scan" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
+  <form hx-post="{{.BasePath}}/submit" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
     <input type="hidden" name="kind" value="out">
     <label class="btn btn-out">📤 Bon fiscal client (ieșire)
       <input type="file" name="photo" accept="image/*" capture="environment"
