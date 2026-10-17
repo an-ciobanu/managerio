@@ -13,3 +13,4 @@ hetzner.txt
 uploads/
 .DS_Store
 /scanner
+.secrets/
