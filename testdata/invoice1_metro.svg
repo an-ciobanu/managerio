@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1150" viewBox="0 0 900 1150" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="1150" fill="#ffffff"/>
+
+  <!-- Supplier header -->
+  <text x="40" y="55" font-size="30" font-weight="bold" fill="#0a3d91">METRO Cash &amp; Carry România SRL</text>
+  <text x="40" y="82" font-size="16" fill="#222">Str. Theodor Pallady 51N, Sector 3, București</text>
+  <text x="40" y="104" font-size="16" fill="#222">CUI: RO8084883   Nr. Reg. Com.: J40/4602/1996</text>
+
+  <line x1="40" y1="125" x2="860" y2="125" stroke="#0a3d91" stroke-width="2"/>
+
+  <!-- Invoice title / meta -->
+  <text x="40" y="170" font-size="26" font-weight="bold" fill="#111">FACTURĂ FISCALĂ</text>
+  <text x="600" y="158" font-size="16" fill="#222">Serie: MTR  Nr.: 0004518</text>
+  <text x="600" y="182" font-size="16" fill="#222">Data: 15.10.2026</text>
+
+  <!-- Buyer -->
+  <text x="40" y="215" font-size="16" font-weight="bold" fill="#111">Cumpărător:</text>
+  <text x="40" y="238" font-size="16" fill="#222">Restaurant La Bunica SRL</text>
+  <text x="40" y="260" font-size="16" fill="#222">CUI: RO41256789   Cluj-Napoca</text>
+
+  <!-- Table header -->
+  <rect x="40" y="290" width="820" height="34" fill="#0a3d91"/>
+  <text x="52"  y="313" font-size="15" fill="#fff" font-weight="bold">Nr.</text>
+  <text x="100" y="313" font-size="15" fill="#fff" font-weight="bold">Denumire produs</text>
+  <text x="520" y="313" font-size="15" fill="#fff" font-weight="bold">U.M.</text>
+  <text x="590" y="313" font-size="15" fill="#fff" font-weight="bold">Cant.</text>
+  <text x="675" y="313" font-size="15" fill="#fff" font-weight="bold">Preț unit.</text>
+  <text x="790" y="313" font-size="15" fill="#fff" font-weight="bold">Valoare</text>
+
+  <!-- Rows -->
+  <g font-size="15" fill="#111">
+    <text x="52" y="350">1</text><text x="100" y="350">Piept pui dezosat</text><text x="520" y="350">kg</text><text x="590" y="350">8,000</text><text x="675" y="350">24,90</text><text x="790" y="350">199,20</text>
+    <text x="52" y="384">2</text><text x="100" y="384">Pulpă porc cu os</text><text x="520" y="384">kg</text><text x="590" y="384">12,500</text><text x="675" y="384">18,50</text><text x="790" y="384">231,25</text>
+    <text x="52" y="418">3</text><text x="100" y="418">Ceapă galbenă</text><text x="520" y="418">kg</text><text x="590" y="418">15,000</text><text x="675" y="418">2,80</text><text x="790" y="418">42,00</text>
+    <text x="52" y="452">4</text><text x="100" y="452">Cartofi albi</text><text x="520" y="452">kg</text><text x="590" y="452">25,000</text><text x="675" y="452">2,30</text><text x="790" y="452">57,50</text>
+    <text x="52" y="486">5</text><text x="100" y="486">Roșii cherry</text><text x="520" y="486">kg</text><text x="590" y="486">6,000</text><text x="675" y="486">11,90</text><text x="790" y="486">71,40</text>
+    <text x="52" y="520">6</text><text x="100" y="520">Ulei floarea-soarelui 1L</text><text x="520" y="520">buc</text><text x="590" y="520">20,000</text><text x="675" y="520">8,49</text><text x="790" y="520">169,80</text>
+    <text x="52" y="554">7</text><text x="100" y="554">Făină albă 000 (1 kg)</text><text x="520" y="554">buc</text><text x="590" y="554">15,000</text><text x="675" y="554">3,20</text><text x="790" y="554">48,00</text>
+    <text x="52" y="588">8</text><text x="100" y="588">Lapte 3.5% 1L</text><text x="520" y="588">buc</text><text x="590" y="588">10,000</text><text x="675" y="588">6,75</text><text x="790" y="588">67,50</text>
+  </g>
+
+  <line x1="40" y1="610" x2="860" y2="610" stroke="#999" stroke-width="1"/>
+
+  <!-- Totals -->
+  <text x="600" y="648" font-size="16" fill="#222">Total fără TVA:</text><text x="790" y="648" font-size="16" fill="#111">886,15</text>
+  <text x="600" y="674" font-size="16" fill="#222">TVA 9%:</text><text x="790" y="674" font-size="16" fill="#111">79,75</text>
+  <text x="600" y="702" font-size="18" font-weight="bold" fill="#111">TOTAL:</text><text x="790" y="702" font-size="18" font-weight="bold" fill="#111">965,90 RON</text>
+
+  <text x="40" y="760" font-size="13" fill="#666">Document generat pentru testare. Prețurile sunt exprimate în RON.</text>
+</svg>

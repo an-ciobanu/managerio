@@ -1,0 +1,12 @@
+{
+  "items": [
+    { "name": "Ceafă porc", "qty": 10, "unit": "kg", "unit_price": 21.5 },
+    { "name": "Mușchi vită", "qty": 4, "unit": "kg", "unit_price": 52.0 },
+    { "name": "Morcovi", "qty": 20, "unit": "kg", "unit_price": 2.1 },
+    { "name": "Ardei gras roșu", "qty": 8, "unit": "kg", "unit_price": 9.8 },
+    { "name": "Cașcaval Dalia", "qty": 6.5, "unit": "kg", "unit_price": 32.9 },
+    { "name": "Ouă M (cofraj 10)", "qty": 30, "unit": "buc", "unit_price": 0.95 },
+    { "name": "Orez bob lung 1kg", "qty": 12, "unit": "buc", "unit_price": 5.4 },
+    { "name": "Apă plată 2L", "qty": 24, "unit": "buc", "unit_price": 1.8 }
+  ]
+}

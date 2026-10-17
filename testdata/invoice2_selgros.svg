@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1150" viewBox="0 0 900 1150" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="1150" fill="#ffffff"/>
+
+  <!-- Supplier header -->
+  <text x="40" y="55" font-size="30" font-weight="bold" fill="#b11116">SELGROS Cash &amp; Carry SRL</text>
+  <text x="40" y="82" font-size="16" fill="#222">Calea Turzii 240, Cluj-Napoca</text>
+  <text x="40" y="104" font-size="16" fill="#222">CUI: RO6020550   Nr. Reg. Com.: J08/2283/1998</text>
+
+  <line x1="40" y1="125" x2="860" y2="125" stroke="#b11116" stroke-width="2"/>
+
+  <text x="40" y="170" font-size="26" font-weight="bold" fill="#111">FACTURĂ FISCALĂ</text>
+  <text x="600" y="158" font-size="16" fill="#222">Serie: SGS  Nr.: 0198734</text>
+  <text x="600" y="182" font-size="16" fill="#222">Data: 16.10.2026</text>
+
+  <text x="40" y="215" font-size="16" font-weight="bold" fill="#111">Cumpărător:</text>
+  <text x="40" y="238" font-size="16" fill="#222">Pensiunea Doi Brazi SRL</text>
+  <text x="40" y="260" font-size="16" fill="#222">CUI: RO38771020   Brașov</text>
+
+  <rect x="40" y="290" width="820" height="34" fill="#b11116"/>
+  <text x="52"  y="313" font-size="15" fill="#fff" font-weight="bold">Nr.</text>
+  <text x="100" y="313" font-size="15" fill="#fff" font-weight="bold">Denumire produs</text>
+  <text x="520" y="313" font-size="15" fill="#fff" font-weight="bold">U.M.</text>
+  <text x="590" y="313" font-size="15" fill="#fff" font-weight="bold">Cant.</text>
+  <text x="675" y="313" font-size="15" fill="#fff" font-weight="bold">Preț unit.</text>
+  <text x="790" y="313" font-size="15" fill="#fff" font-weight="bold">Valoare</text>
+
+  <g font-size="15" fill="#111">
+    <text x="52" y="350">1</text><text x="100" y="350">Ceafă porc</text><text x="520" y="350">kg</text><text x="590" y="350">10,000</text><text x="675" y="350">21,50</text><text x="790" y="350">215,00</text>
+    <text x="52" y="384">2</text><text x="100" y="384">Mușchi vită</text><text x="520" y="384">kg</text><text x="590" y="384">4,000</text><text x="675" y="384">52,00</text><text x="790" y="384">208,00</text>
+    <text x="52" y="418">3</text><text x="100" y="418">Morcovi</text><text x="520" y="418">kg</text><text x="590" y="418">20,000</text><text x="675" y="418">2,10</text><text x="790" y="418">42,00</text>
+    <text x="52" y="452">4</text><text x="100" y="452">Ardei gras roșu</text><text x="520" y="452">kg</text><text x="590" y="452">8,000</text><text x="675" y="452">9,80</text><text x="790" y="452">78,40</text>
+    <text x="52" y="486">5</text><text x="100" y="486">Cașcaval Dalia</text><text x="520" y="486">kg</text><text x="590" y="486">6,500</text><text x="675" y="486">32,90</text><text x="790" y="486">213,85</text>
+    <text x="52" y="520">6</text><text x="100" y="520">Ouă M (cofraj 10)</text><text x="520" y="520">buc</text><text x="590" y="520">30,000</text><text x="675" y="520">0,95</text><text x="790" y="520">28,50</text>
+    <text x="52" y="554">7</text><text x="100" y="554">Orez bob lung 1kg</text><text x="520" y="554">buc</text><text x="590" y="554">12,000</text><text x="675" y="554">5,40</text><text x="790" y="554">64,80</text>
+    <text x="52" y="588">8</text><text x="100" y="588">Apă plată 2L</text><text x="520" y="588">buc</text><text x="590" y="588">24,000</text><text x="675" y="588">1,80</text><text x="790" y="588">43,20</text>
+  </g>
+
+  <line x1="40" y1="610" x2="860" y2="610" stroke="#999" stroke-width="1"/>
+
+  <text x="600" y="648" font-size="16" fill="#222">Total fără TVA:</text><text x="790" y="648" font-size="16" fill="#111">893,75</text>
+  <text x="600" y="674" font-size="16" fill="#222">TVA 9%:</text><text x="790" y="674" font-size="16" fill="#111">80,44</text>
+  <text x="600" y="702" font-size="18" font-weight="bold" fill="#111">TOTAL:</text><text x="790" y="702" font-size="18" font-weight="bold" fill="#111">974,19 RON</text>
+
+  <text x="40" y="760" font-size="13" fill="#666">Document generat pentru testare. Prețurile sunt exprimate în RON.</text>
+</svg>
