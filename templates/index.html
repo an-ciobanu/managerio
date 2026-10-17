@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scanare Factură</title>
+  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto; padding: 16px; color: #111; }
+    h1 { font-size: 1.25rem; }
+    .btn { display: block; width: 100%; padding: 14px; font-size: 1rem; border: 0; border-radius: 8px; background: #2563eb; color: #fff; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { text-align: left; padding: 6px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+    .ok { color: #16a34a; } .err { color: #dc2626; }
+    .htmx-indicator { display: none; margin-top: 12px; }
+    .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: block; }
+  </style>
+</head>
+<body>
+  <h1>Scanează factura Metro / Selgros</h1>
+  <form hx-post="/scan" hx-target="#result" hx-encoding="multipart/form-data" hx-indicator="#ind">
+    <input class="btn" type="file" name="photo" accept="image/*" capture="environment"
+           onchange="this.form.requestSubmit()">
+  </form>
+  <div id="ind" class="htmx-indicator">Analizez factura…</div>
+  <div id="result"></div>
+</body>
+</html>
